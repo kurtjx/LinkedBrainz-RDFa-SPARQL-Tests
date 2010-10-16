@@ -1,0 +1,10 @@
+LinkedBrainz RDFa and SPARQL consistency tests
+==============================================
+
+@author kurtjx
+
+This is a set of tests written in python to check whether the contents of the
+MusicBrainz SPARQL endpoint are consistent with the contents of the MusicBrainz
+RDFa.  In a perfect world, such tests would not be necessary but unfortunately
+this is not a perfect world :-)
+
