@@ -1,6 +1,7 @@
 import RDF
 from settings import endpoint_uri
 from urllib import quote
+from SPARQLWrapper import SPARQLWrapper2
 
 def load_rdfa_model(uri):
     ''' loads RDFa from URI '''
@@ -50,5 +51,20 @@ def model_is_subset(model_sub, model_super, subject=None):
             print '%s %s;' % p
         return False
 
-                       
+ASK = """ASK { %s . }"""
                    
+def ask_each_triple(rdfa_model, endpoint):
+    "docstring for ask_each_triple"
+    nts = RDF.NTriplesSerializer()
+    nt_lines = nts.serialize_model_to_string(rdfa_model).split('\n')
+    sparql = SPARQLWrapper2(endpoint)
+    missing_triples = False
+    for t in nt_lines:
+        sparql.setQuery(ASK % t)
+        if not sparql.query().convert()['boolean']:
+            print 'missing triple:'
+            print t
+            missing_triples = True
+    return missing_triples
+            
+    
